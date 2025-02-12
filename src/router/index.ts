@@ -1,0 +1,21 @@
+import { createRouter, createWebHistory } from 'vue-router'
+
+const lazyLoad = (view: string) => () => import(`../views/${view}/${view}.vue`)
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: lazyLoad('home'),
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: lazyLoad('about'),
+    },
+  ],
+})
+
+export default router
