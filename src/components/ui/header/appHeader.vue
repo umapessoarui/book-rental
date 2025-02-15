@@ -17,8 +17,7 @@ const search = () => {
           <img src="@/assets/logo.svg" alt="Logo" />
         </div>
         <nav class="nav">
-          <a href="#" class="nav-link">Busca</a>
-          <a href="#" class="nav-link">Biblioteca</a>
+          <a href="#" class="nav-link">{{ $t('header.library') }}</a>
         </nav>
       </div>
       <div class="header-actions">
@@ -27,7 +26,7 @@ const search = () => {
             v-model="searchQuery"
             @keyup.enter="search"
             type="text"
-            placeholder="Buscar livros..."
+            :placeholder="$t('header.search')"
             class="search-input"
           />
         </div>

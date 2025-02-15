@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { locale } = useI18n()
 
 const languages = ref([
-  { code: 'PT', label: 'Português' },
-  { code: 'EN', label: 'English' },
+  { code: 'pt', label: 'Português' },
+  { code: 'en', label: 'English' },
 ])
 
-const selectedLanguage = ref('PT')
+const selectedLanguage = ref('pt')
 const showDropdown = ref(false)
 
 const toggleDropdown = () => {
@@ -14,6 +17,7 @@ const toggleDropdown = () => {
 }
 
 const selectLanguage = (code: string) => {
+  locale.value = code
   selectedLanguage.value = code
   showDropdown.value = false
 }
@@ -50,6 +54,7 @@ const selectLanguage = (code: string) => {
   font-weight: bold;
   cursor: pointer;
   padding: 5px;
+  text-transform: uppercase;
 }
 
 .dropdown {
