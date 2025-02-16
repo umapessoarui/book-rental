@@ -8,12 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: lazyLoad('home'),
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: lazyLoad('about'),
+      component: lazyLoad('Home'),
     },
   ],
 })

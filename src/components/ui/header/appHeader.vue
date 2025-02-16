@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import LanguageSelector from './components/languageSelector.vue'
+import LanguageSelector from './components/LanguageSelector/LanguageSelector.vue'
 
 const searchQuery = ref('')
 const screenWidth = ref(window.innerWidth)
