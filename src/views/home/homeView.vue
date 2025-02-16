@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { searchBestSellers } from '../../shared/services/bookServices'
-import BookCard from './components/BookCard.vue'
+import BookCard from './components/bookCard/BookCard.vue'
 import type { Book } from '@/shared/types/bookTypes'
 
 interface Column {
