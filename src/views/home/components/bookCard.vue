@@ -4,7 +4,7 @@ import type { Book } from '@/shared/types/bookTypes'
 
 defineProps<{
   book: Book
-  onClick: (book) => void
+  onClick: (book: Book) => void
 }>()
 </script>
 
