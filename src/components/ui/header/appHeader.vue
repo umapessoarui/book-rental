@@ -1,8 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import LanguageSelector from './components/languageSelector.vue'
 
 const searchQuery = ref('')
+const screenWidth = ref(window.innerWidth)
+
+const updateScreenWidth = () => {
+  screenWidth.value = window.innerWidth
+}
+
+onMounted(() => {
+  window.addEventListener('resize', updateScreenWidth)
+})
+
+// onMounted(() => {
+//   window.removeEventListener('resize', updateScreenWidth)
+// })
 
 const search = () => {
   console.log('Pesquisando:', searchQuery.value)
@@ -11,17 +24,17 @@ const search = () => {
 
 <template>
   <header class="header">
-    <div class="header-container">
-      <div class="header-left">
-        <div class="logo">
+    <div class="header__container">
+      <div class="header__left">
+        <div class="header__logo">
           <img src="@/assets/logo.svg" alt="Logo" />
         </div>
-        <nav class="nav">
-          <a href="#" class="nav-link">{{ $t('header.library') }}</a>
+        <nav class="header__nav">
+          <a href="#" class="nav__link">{{ $t('header.library') }}</a>
         </nav>
       </div>
-      <div class="header-actions">
-        <div class="search-box">
+      <div class="header__actions">
+        <div class="search-box" v-if="screenWidth > 440">
           <input
             v-model="searchQuery"
             @keyup.enter="search"
@@ -33,100 +46,127 @@ const search = () => {
         <LanguageSelector></LanguageSelector>
       </div>
     </div>
+    <div class="search-box" v-if="screenWidth < 441">
+      <input
+        v-model="searchQuery"
+        @keyup.enter="search"
+        type="text"
+        :placeholder="$t('header.search')"
+        class="search-input"
+      />
+    </div>
   </header>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+// Variáveis para breakpoints
+$breakpoint-sm: 440px;
+
 .header {
   background-color: #fff;
-  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.5);
-  padding: 10px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
+  box-shadow: 0.125rem 0.25rem 0.375rem rgba(0, 0, 0, 0.5);
+  padding: 0.625rem 1.25rem;
   width: 100%;
   z-index: 100;
-  height: 100px;
-}
+  height: 6.25rem;
+  position: fixed;
 
-.header-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
+  @media (min-width: $breakpoint-sm) {
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-}
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
 
-.logo img {
-  width: 40px;
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  &__logo img {
+    width: 2.5rem;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
 }
 
 .nav {
-  display: flex;
-  gap: 20px;
-}
+  &__link {
+    text-decoration: none;
+    color: #09396a;
+    font-size: 0.875rem;
+    font-weight: bold;
+    position: relative;
+    padding-bottom: 0.3125rem;
+    transition: color 0.3s ease;
 
-.nav-link {
-  text-decoration: none;
-  color: #09396a;
-  font-size: 14px;
-  font-weight: bold;
-  position: relative;
-  padding-bottom: 5px;
-  transition: color 0.3s ease;
-}
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 0.125rem;
+      background-color: #ea762f;
+      transition: width 0.3s ease-in-out;
+    }
 
-.nav-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 2px;
-  background-color: #ea762f;
-  transition: width 0.3s ease-in-out;
-}
+    &:hover {
+      color: #ea762f;
 
-.nav-link:hover {
-  color: #ea762f;
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+      &::after {
+        width: 100%;
+      }
+    }
+  }
 }
 
 .search-box {
   flex-grow: 1;
   margin-left: auto;
-  margin-right: 20px;
+  margin-right: 1.25rem;
   position: relative;
+  width: 100%;
+  margin-top: 6px;
+  @media (min-width: $breakpoint-sm) {
+    margin-top: 0;
+  }
 }
 
 .search-input {
-  width: 200px;
-  padding: 8px 12px;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   outline: none;
-  font-size: 14px;
+  font-size: 0.875rem;
   transition: 0.3s;
-}
 
-.search-input:focus {
-  border-color: #ea762f;
-  box-shadow: 0px 0px 5px rgba(230, 92, 0, 0.5);
+  @media (min-width: $breakpoint-sm) {
+    width: 12.5rem;
+  }
+
+  &:focus {
+    border-color: #ea762f;
+    box-shadow: 0 0 0.3125rem rgba(230, 92, 0, 0.5);
+  }
 }
 </style>
