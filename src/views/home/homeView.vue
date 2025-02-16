@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { searchBestSellers, type Book } from '../../services/bookServices'
+import { searchBestSellers } from '../../shared/services/bookServices'
+import BookCard from './components/BookCard.vue'
+import type { Book } from '@/shared/types/bookTypes'
 
 interface Column {
   books: (Book & { height?: number })[]
+  isHovered: boolean
 }
 
 const bestSellers = ref<Book[]>([])
 const columns = ref<Column[]>([])
 const columnCount = ref<number>(8) // Número fixo de colunas
-const minBookHeight = 300
 const animationDurations = ref<number[]>([])
 
 const fetchBooks = async () => {
@@ -24,14 +26,13 @@ const fetchBooks = async () => {
 const generateColumns = (): void => {
   if (bestSellers.value.length === 0) return
 
-  columns.value = Array.from({ length: columnCount.value }, () => ({ books: [] }))
+  columns.value = Array.from({ length: columnCount.value }, () => ({ books: [], isHovered: false }))
 
   for (let i = 0; i < bestSellers.value.length; i++) {
     const colIndex = i % columnCount.value
 
     columns.value[colIndex].books.push({
       ...bestSellers.value[i],
-      height: minBookHeight,
     })
   }
 
@@ -59,27 +60,26 @@ onMounted(() => {
 <template>
   <div class="container">
     <div class="columns-container">
-      <div v-for="(column, index) in columns" :key="index" class="column">
+      <div
+        v-for="(column, index) in columns"
+        :key="index"
+        class="column"
+        @mouseenter="column.isHovered = true"
+        @mouseleave="column.isHovered = false"
+      >
         <div
           class="scrolling"
           :style="{
             animationDuration: `${animationDurations[index]}s`,
+            animationPlayState: column.isHovered ? 'paused' : 'running',
           }"
         >
-          <div
+          <BookCard
             v-for="(book, bookIndex) in column.books"
             :key="bookIndex"
-            class="book-card"
-            :style="{
-              minHeight: `${book.height}px`,
-            }"
-            @click="goToBookPage(book)"
-          >
-            <div
-              class="book-image-container"
-              :style="{ backgroundImage: `url(${book.thumbnail})` }"
-            ></div>
-          </div>
+            :book="book"
+            :onClick="goToBookPage"
+          />
         </div>
       </div>
     </div>
@@ -105,6 +105,7 @@ onMounted(() => {
   bottom: 0;
   z-index: 1;
   padding: 16px 16px 0 16px;
+  overflow: visible;
 }
 
 .column {
@@ -113,8 +114,9 @@ onMounted(() => {
   gap: 1rem;
   flex: 1;
   min-width: 100px;
-  overflow: hidden;
   position: relative;
+  z-index: -1;
+  overflow: visible;
 }
 
 .scrolling {
@@ -124,6 +126,7 @@ onMounted(() => {
   animation-name: scrollUp;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  overflow: visible;
 }
 
 @keyframes scrollUp {
@@ -133,43 +136,5 @@ onMounted(() => {
   to {
     transform: translateY(-50%);
   }
-}
-
-.book-card {
-  width: 100%;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  cursor: pointer;
-  overflow: hidden;
-  transition: transform 0.2s ease-in-out;
-  will-change: transform;
-  transform-origin: center;
-}
-
-.book-card:hover {
-  transform: scale(1.04);
-}
-
-@keyframes scaleUp {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.04);
-  }
-}
-
-.book-image-container {
-  width: 100%;
-  height: 200px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 100%;
-  zoom: 1.5;
 }
 </style>
