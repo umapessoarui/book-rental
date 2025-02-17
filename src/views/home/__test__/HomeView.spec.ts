@@ -1,6 +1,6 @@
 import { mount, flushPromises } from '@vue/test-utils'
 import { describe, it, expect, vi } from 'vitest'
-import HomeView from '@/views/Home/HomeView.vue'
+import HomeView from '../HomeView.vue'
 import { searchBestSellers } from '@/shared/services/bookServices'
 
 // Mock do serviço de busca de livros

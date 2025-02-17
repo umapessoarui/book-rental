@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
-import Toaster from '@/components/Toaster/AppToaster.vue'
+import Toaster from '../AppToaster.vue'
 import { toastService } from '@/components/Toaster/services/toasterService'
 
 describe('Toaster.vue', () => {

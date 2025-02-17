@@ -1,6 +1,7 @@
 import { mount, flushPromises } from '@vue/test-utils'
 import { describe, it, expect, vi } from 'vitest'
-import LibraryView from '@/views/Library/LibraryView.vue'
+import LibraryView from '../LibraryView.vue'
+
 import { fetchTopBooksByCategory } from '@/shared/services/bookServices'
 
 // Mock do serviço de busca de livros

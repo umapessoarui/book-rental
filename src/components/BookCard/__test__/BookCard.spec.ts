@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, vi } from 'vitest'
-import BookCard from '@/components/BookCard/BookCard.vue'
+import BookCard from '../BookCard.vue'
 import type { Book } from '@/shared/types/bookTypes'
 
 describe('BookCard.vue', () => {
