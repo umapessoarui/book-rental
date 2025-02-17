@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import LanguageSelector from './components/LanguageSelector/LanguageSelector.vue'
+import { useRouter } from 'vue-router'
 
 const screenWidth = ref(window.innerWidth)
+const router = useRouter()
+
+const changeRoute = (route: string) => {
+  router.push(`/${route}`)
+}
 
 const updateScreenWidth = () => {
   screenWidth.value = window.innerWidth
@@ -22,7 +28,7 @@ onMounted(() => {
         </div>
         <nav class="header__nav">
           <a href="/" class="nav__link">{{ $t('header.home') }}</a>
-          <a href="book-rental/library" class="nav__link">{{ $t('header.library') }}</a>
+          <a @click="changeRoute('library')" class="nav__link">{{ $t('header.library') }}</a>
         </nav>
       </div>
       <div class="header__actions">
