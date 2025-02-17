@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
 import Header from '@/components/ui/header/AppHeader.vue'
+import Container from '@/components/ui/container/AppContainer.vue'
+import Toaster from '@/components/Toaster/AppToaster.vue'
 </script>
 
 <template>
   <Header></Header>
-  <RouterView />
+  <Toaster></Toaster>
+  <Container></Container>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss"></style>

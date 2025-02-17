@@ -2,7 +2,6 @@
 import { onMounted, ref } from 'vue'
 import LanguageSelector from './components/LanguageSelector/LanguageSelector.vue'
 
-const searchQuery = ref('')
 const screenWidth = ref(window.innerWidth)
 
 const updateScreenWidth = () => {
@@ -12,14 +11,6 @@ const updateScreenWidth = () => {
 onMounted(() => {
   window.addEventListener('resize', updateScreenWidth)
 })
-
-// onMounted(() => {
-//   window.removeEventListener('resize', updateScreenWidth)
-// })
-
-const search = () => {
-  console.log('Pesquisando:', searchQuery.value)
-}
 </script>
 
 <template>
@@ -30,30 +21,13 @@ const search = () => {
           <img src="@/assets/logo.svg" alt="Logo" />
         </div>
         <nav class="header__nav">
-          <a href="#" class="nav__link">{{ $t('header.library') }}</a>
+          <a href="/" class="nav__link">{{ $t('header.home') }}</a>
+          <a href="/library" class="nav__link">{{ $t('header.library') }}</a>
         </nav>
       </div>
       <div class="header__actions">
-        <div class="search-box" v-if="screenWidth > 440">
-          <input
-            v-model="searchQuery"
-            @keyup.enter="search"
-            type="text"
-            :placeholder="$t('header.search')"
-            class="search-input"
-          />
-        </div>
         <LanguageSelector></LanguageSelector>
       </div>
-    </div>
-    <div class="search-box" v-if="screenWidth < 441">
-      <input
-        v-model="searchQuery"
-        @keyup.enter="search"
-        type="text"
-        :placeholder="$t('header.search')"
-        class="search-input"
-      />
     </div>
   </header>
 </template>
@@ -136,37 +110,6 @@ $breakpoint-sm: 440px;
         width: 100%;
       }
     }
-  }
-}
-
-.search-box {
-  flex-grow: 1;
-  margin-left: auto;
-  margin-right: 1.25rem;
-  position: relative;
-  width: 100%;
-  margin-top: 6px;
-  @media (min-width: $breakpoint-sm) {
-    margin-top: 0;
-  }
-}
-
-.search-input {
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 0.3125rem;
-  outline: none;
-  font-size: 0.875rem;
-  transition: 0.3s;
-
-  @media (min-width: $breakpoint-sm) {
-    width: 12.5rem;
-  }
-
-  &:focus {
-    border-color: #ea762f;
-    box-shadow: 0 0 0.3125rem rgba(230, 92, 0, 0.5);
   }
 }
 </style>

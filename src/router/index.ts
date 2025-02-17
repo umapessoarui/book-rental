@@ -10,6 +10,16 @@ const router = createRouter({
       name: 'home',
       component: lazyLoad('Home'),
     },
+    {
+      path: '/library',
+      name: 'library',
+      component: lazyLoad('Library'),
+    },
+    {
+      path: '/book/:id',
+      name: 'book',
+      component: lazyLoad('Book'),
+    },
   ],
 })
 

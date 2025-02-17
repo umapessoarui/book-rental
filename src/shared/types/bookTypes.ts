@@ -4,5 +4,9 @@ export interface Book {
   title: string
   author: string[]
   averageRating: number
-  price: { amount: number }
+  price: number
+  description?: string
+  pageCount?: string
+  publishedDate?: string
+  previewLink?: string
 }

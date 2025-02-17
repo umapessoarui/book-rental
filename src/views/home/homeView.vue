@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { searchBestSellers } from '../../shared/services/bookServices'
-import BookCard from './components/bookCard/BookCard.vue'
+import BookCard from '@/components/BookCard/BookCard.vue'
 import type { Book } from '@/shared/types/bookTypes'
+import { useRouter } from 'vue-router'
 
 interface Column {
   books: (Book & { height?: number })[]
@@ -12,16 +13,14 @@ interface Column {
 const bestSellers = ref<Book[]>([])
 const columns = ref<Column[]>([])
 const animationDurations = ref<number[]>([])
-
 const screenWidth = ref(window.innerWidth)
+const isLoading = ref(true) // Estado para controlar o carregamento
+
+const router = useRouter()
 
 const updateScreenWidth = () => {
   screenWidth.value = window.innerWidth
 }
-
-onMounted(() => {
-  window.addEventListener('resize', updateScreenWidth)
-})
 
 const columnCount = computed(() => {
   if (screenWidth.value > 1440) return 8
@@ -33,11 +32,14 @@ const columnCount = computed(() => {
 
 const fetchBooks = async () => {
   try {
+    isLoading.value = true
     const bookQuantity = screenWidth.value < 500 ? 10 : 40
     bestSellers.value = await searchBestSellers('best sellers', bookQuantity)
     generateColumns()
   } catch (error) {
     console.error('Erro ao buscar livros:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -66,17 +68,24 @@ const generateAnimationSettings = () => {
 }
 
 const goToBookPage = (book: Book) => {
-  console.log(book)
+  router.push(`/book/${book.id}`)
 }
 
 onMounted(() => {
   fetchBooks()
+  window.addEventListener('resize', updateScreenWidth)
 })
 </script>
 
 <template>
-  <div class="container">
-    <div class="columns-container">
+  <div class="columns-container">
+    <template v-if="isLoading">
+      <div v-for="index in columnCount" :key="index" class="column">
+        <div v-for="i in 5" :key="i" class="skeleton-card"></div>
+      </div>
+    </template>
+
+    <template v-else>
       <div
         v-for="(column, index) in columns"
         :key="index"
@@ -99,52 +108,18 @@ onMounted(() => {
           />
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
 <style lang="scss">
-// Variáveis para breakpoints
-$breakpoint-sm: 441px;
-$breakpoint-md: 769px;
-$breakpoint-lg: 1025px;
-$breakpoint-xl: 1441px;
-
-.container {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-  @media (min-width: $breakpoint-sm) {
-    overflow: hidden;
-  }
-}
-
 .columns-container {
   display: flex;
   justify-content: space-around;
   gap: 1rem;
   z-index: 1;
-  padding: 1rem 1rem 0 1rem;
+  padding: 1rem;
   overflow: visible;
-
-  @media (min-width: $breakpoint-sm) {
-    position: absolute;
-    top: 5rem;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-
-  @media (max-width: $breakpoint-lg) {
-    gap: 0.8rem;
-  }
-
-  @media (max-width: $breakpoint-sm) {
-    flex-direction: column;
-    position: relative;
-    top: 0;
-    align-items: center;
-  }
 }
 
 .column {
@@ -154,21 +129,8 @@ $breakpoint-xl: 1441px;
   flex: 1;
   min-width: 6.25rem;
   position: relative;
-  z-index: -1;
   overflow: visible;
   margin-top: 100px;
-
-  @media (max-width: $breakpoint-md) {
-    min-width: 5rem;
-  }
-
-  @media (max-width: $breakpoint-sm) {
-    min-width: 100%;
-  }
-
-  @media (min-width: $breakpoint-sm) {
-    margin-top: 30px;
-  }
 }
 
 .scrolling {
@@ -179,6 +141,24 @@ $breakpoint-xl: 1441px;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   overflow: visible;
+}
+
+.skeleton-card {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
 }
 
 @keyframes scrollUp {

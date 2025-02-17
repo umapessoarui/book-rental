@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
-import type { Book } from '@/shared/types/bookTypes'
+import type { Book } from '../../shared/types/bookTypes'
 
 defineProps<{
   book: Book
@@ -34,7 +34,7 @@ $breakpoint-md: 769px;
 $breakpoint-lg: 1025px;
 $breakpoint-xl: 1441px;
 .book-card {
-  width: 100%;
+  min-width: 100%;
   background-color: #fff;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   display: flex;
@@ -55,16 +55,18 @@ $breakpoint-xl: 1441px;
 
   &__image-container {
     width: 100%;
-    height: 12.5rem;
+    height: 6rem;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    zoom: 3;
+    zoom: 3.5;
     @media (min-width: $breakpoint-sm) {
-      zoom: 2.5;
+      zoom: 2;
+      height: 12rem;
     }
     @media (min-width: $breakpoint-lg) {
       zoom: 2;
+      height: 12rem;
     }
   }
 
