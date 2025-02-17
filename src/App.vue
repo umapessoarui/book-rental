@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AppHeader from '@/components/ui/header/AppHeader.vue'
-import Container from '@/components/ui/container/AppContainer.vue'
+import AppHeader from '@/components/ui/AppHeader/AppHeader.vue'
+import Container from '@/components/ui/AppContainer/AppContainer.vue'
 import Toaster from '@/components/Toaster/AppToaster.vue'
 </script>
 
