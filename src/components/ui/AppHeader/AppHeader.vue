@@ -27,7 +27,7 @@ onMounted(() => {
           <img src="@/assets/logo.svg" alt="Logo" />
         </div>
         <nav class="header__nav">
-          <a href="/" class="nav__link">{{ $t('header.home') }}</a>
+          <a @click="changeRoute('')" class="nav__link">{{ $t('header.home') }}</a>
           <a @click="changeRoute('library')" class="nav__link">{{ $t('header.library') }}</a>
         </nav>
       </div>
@@ -97,6 +97,7 @@ $breakpoint-sm: 440px;
     position: relative;
     padding-bottom: 0.3125rem;
     transition: color 0.3s ease;
+    cursor: pointer;
 
     &::after {
       content: '';
