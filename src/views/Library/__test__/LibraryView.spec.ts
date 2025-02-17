@@ -27,7 +27,7 @@ const mockBooks = {
 describe('LibraryView.vue', () => {
   it('renderiza os títulos das categorias corretamente', async () => {
     // Mockando retorno do serviço
-    ;(fetchTopBooksByCategory as vi.Mock).mockResolvedValue(mockBooks)
+    ;(fetchTopBooksByCategory as any).mockResolvedValue(mockBooks)
 
     const wrapper = mount(LibraryView)
 
@@ -46,7 +46,7 @@ describe('LibraryView.vue', () => {
   })
 
   it('exibe os livros corretamente após o carregamento', async () => {
-    ;(fetchTopBooksByCategory as vi.Mock).mockResolvedValue(mockBooks)
+    ;(fetchTopBooksByCategory as any).mockResolvedValue(mockBooks)
 
     const wrapper = mount(LibraryView)
 
@@ -62,7 +62,7 @@ describe('LibraryView.vue', () => {
   })
 
   it('navega para a página do livro ao clicar em um BookCard', async () => {
-    ;(fetchTopBooksByCategory as vi.Mock).mockResolvedValue(mockBooks)
+    ;(fetchTopBooksByCategory as any).mockResolvedValue(mockBooks)
 
     const wrapper = mount(LibraryView)
 

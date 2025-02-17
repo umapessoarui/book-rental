@@ -24,7 +24,7 @@ const mockBooks = Array.from({ length: 10 }, (_, i) => ({
 
 describe('HomeView.vue', () => {
   it('renderiza corretamente as colunas de livros', async () => {
-    ;(searchBestSellers as vi.Mock).mockResolvedValue(mockBooks)
+    ;(searchBestSellers as any).mockResolvedValue(mockBooks)
 
     const wrapper = mount(HomeView)
 
@@ -46,7 +46,7 @@ describe('HomeView.vue', () => {
   })
 
   it('responde corretamente à mudança de tamanho da tela', async () => {
-    ;(searchBestSellers as vi.Mock).mockResolvedValue(mockBooks)
+    ;(searchBestSellers as any).mockResolvedValue(mockBooks)
 
     const wrapper = mount(HomeView)
 
@@ -63,7 +63,7 @@ describe('HomeView.vue', () => {
   })
 
   it('navega para a página do livro ao clicar em um BookCard', async () => {
-    ;(searchBestSellers as vi.Mock).mockResolvedValue(mockBooks)
+    ;(searchBestSellers as any).mockResolvedValue(mockBooks)
 
     const wrapper = mount(HomeView)
 
