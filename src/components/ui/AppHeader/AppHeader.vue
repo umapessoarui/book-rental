@@ -22,7 +22,7 @@ onMounted(() => {
         </div>
         <nav class="header__nav">
           <a href="/" class="nav__link">{{ $t('header.home') }}</a>
-          <a href="/library" class="nav__link">{{ $t('header.library') }}</a>
+          <a href="book-rental/library" class="nav__link">{{ $t('header.library') }}</a>
         </nav>
       </div>
       <div class="header__actions">
