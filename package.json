@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "run-p type-check build-only --",
     "preview": "vite preview",
     "test:unit": "vitest",
     "prepare": "husky",
@@ -17,7 +17,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write src/",
     "husky": "npx husky init",
-    "deploy": "vite build && gh-pages -d dist"
+    "deploy": "npm run build-only && gh-pages -d dist"
   },
   "dependencies": {
     "swiper": "^11.2.4",
